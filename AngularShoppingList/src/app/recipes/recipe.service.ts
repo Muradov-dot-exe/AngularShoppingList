@@ -9,22 +9,26 @@ export class RecipeService {
 
   private recipes: Recipe[] = [
     new Recipe(
-      'Recipe 1',
+      'Pork Shawarma Recipe',
       'Pork Shawarma',
       'https://broilkingbbq.com/wp-content/uploads/2020/10/GrilledShawarma_12-LOW.jpg',
-      [new Ingredient('Meat', 1), new Ingredient('Bread', 1)]
+      [new Ingredient('Pork Meat', 1), new Ingredient('Bread', 1)]
     ),
     new Recipe(
-      'Recipe 2',
+      'Chicken Shawarma Recipe',
       'Chicken Shawarma',
       'https://www.recipetineats.com/wp-content/uploads/2017/01/Chicken-Shawarma-Wrap_3.jpg?resize=650,813',
-      [new Ingredient('buns', 2), new Ingredient('sauce', 1)]
+      [new Ingredient('buns', 1), new Ingredient('sauce', 1)]
     ),
   ];
 
   constructor(private shoppingList: ShoppingListService) {}
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  getRecipe(id: number) {
+    return this.recipes.slice()[id];
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
