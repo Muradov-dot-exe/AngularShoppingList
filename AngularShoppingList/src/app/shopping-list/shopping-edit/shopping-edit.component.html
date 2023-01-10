@@ -32,7 +32,13 @@
             {{ editMode ? "Update" : "Add" }}</button
           >&nbsp;
           <button class="btn btn-danger" type="button">Delete</button>&nbsp;
-          <button class="btn btn-primary" type="submit">Clear</button>
+          <button
+            class="btn btn-primary"
+            type="submit"
+            (click)="onClearClick()"
+          >
+            Clear
+          </button>
         </div>
       </div>
     </form>
