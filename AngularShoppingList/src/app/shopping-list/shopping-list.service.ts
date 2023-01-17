@@ -12,6 +12,7 @@ export class ShoppingListService {
   getIngredients() {
     return this.ingredients.slice();
   }
+
   getIngredient(index: number) {
     return this.ingredients[index];
   }

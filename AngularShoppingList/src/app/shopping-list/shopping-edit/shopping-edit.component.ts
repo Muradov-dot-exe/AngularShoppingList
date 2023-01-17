@@ -17,10 +17,12 @@ import { ShoppingListService } from '../shopping-list.service';
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('f', { static: false }) slForm: NgForm;
+
   subs: Subscription;
   editMode = false;
   editedItemIndex: number;
   editedItem: Ingredient;
+
   constructor(private slService: ShoppingListService) {}
 
   ngOnInit(): void {
