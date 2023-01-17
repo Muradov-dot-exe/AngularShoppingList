@@ -18,6 +18,7 @@ export interface AuthResponseData {
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   token: string = null;
+  private tokenExpirationTimer: any;
 
   baseSignUpUrl =
     'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDBI8ZovXf3edRpWOd9-bLidGXijEYb8sQ';
@@ -91,6 +92,13 @@ export class AuthService {
   logout() {
     this.user.next(null);
     this.router.navigate(['/auth']);
+    localStorage.removeItem('userData');
+  }
+
+  autoLogout(expirationDuration: number) {
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, expirationDuration);
   }
 
   private handleAuthentication(
