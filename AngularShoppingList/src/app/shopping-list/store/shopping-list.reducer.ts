@@ -7,7 +7,7 @@ const initialState = {
 
 export const shoppingListReducer = (
   state = initialState,
-  action: ShoppingListActions.AddIngredient
+  action: ShoppingListActions.ShoppingListActions
 ) => {
   switch (action.type) {
     case ShoppingListActions.ADD_INGREDIENT:
@@ -15,10 +15,12 @@ export const shoppingListReducer = (
         ...state,
         ingredients: [...state.ingredients, action.payload],
       };
-
-      break;
-
+    case ShoppingListActions.ADD_INGREDIENTS:
+      return {
+        ...state,
+        ingredients: [...state.ingredients, ...action.payload],
+      };
     default:
-      break;
+      return state;
   }
 };
