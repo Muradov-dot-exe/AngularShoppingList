@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import * as AuthActions from './auth.actions';
 import { environment } from 'src/environments/environment';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 export interface AuthResponseData {
   idToken: string;
@@ -41,10 +42,42 @@ export class AuthEffects {
                 token: resData.idToken,
                 expirationDate: expirationDate,
               });
+            }),
+            catchError((errorRes) => {
+              let errorMessage = 'An unknown error ocurred';
+              if (!errorRes.error || !errorRes.error.error) {
+                return of(new AuthActions.LoginFail(errorMessage));
+              }
+              switch (errorRes.error.error.message) {
+                case 'EMAIL_EXISTS':
+                  errorMessage = 'Email already exists!';
+                  break;
+                case 'EMAIL_NOT_FOUND':
+                  errorMessage = 'This email does not exist!';
+                  break;
+                case 'INVALID_PASSWORD':
+                  errorMessage = 'This password is invalid!';
+                  break;
+              }
+              return of(new AuthActions.LoginFail(errorMessage));
             })
           );
       })
     )
   );
-  constructor(private actions$: Actions, private http: HttpClient) {}
+  authSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.LOGIN),
+        tap(() => {
+          this.router.navigate(['/']);
+        })
+      ),
+    { dispatch: false }
+  );
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 }
