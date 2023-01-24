@@ -95,7 +95,7 @@ export class AuthService {
     );
     if (loadedUser.token) {
       this.store.dispatch(
-        new AuthActions.Login({
+        new AuthActions.AuthenticateSuccess({
           email: loadedUser.email,
           userId: loadedUser.id,
           token: loadedUser.token,
@@ -112,7 +112,6 @@ export class AuthService {
 
   logout() {
     this.store.dispatch(new AuthActions.Logout());
-    this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -135,7 +134,7 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     this.store.dispatch(
-      new AuthActions.Login({
+      new AuthActions.AuthenticateSuccess({
         email: email,
         userId: userId,
         token: token,
