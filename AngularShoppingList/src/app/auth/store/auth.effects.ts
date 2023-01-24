@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../user.model';
+import { AuthService } from '../auth.service';
 
 export interface AuthResponseData {
   kind: string;
@@ -26,6 +27,7 @@ const handleAuthentication = (
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
   const user = new User(email, userId, token, expirationDate);
   localStorage.setItem('userData', JSON.stringify(user));
+
   return new AuthActions.AuthenticateSuccess({
     email: email,
     userId: userId,
@@ -61,6 +63,7 @@ export class AuthEffects {
         let signInUrl =
           'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
           environment.firebaseAPIKey;
+
         return this.http
           .post<AuthResponseData>(signInUrl + environment.firebaseAPIKey, {
             email: signupAction.payload.email,
@@ -68,6 +71,11 @@ export class AuthEffects {
             returnSecureToken: true,
           })
           .pipe(
+            tap((resData) => {
+              this.AuthService.setLogoutTimer(
+                Number.parseInt(resData.expiresIn) * 1000
+              );
+            }),
             map((resData) => {
               return handleAuthentication(
                 +resData.expiresIn,
@@ -90,6 +98,7 @@ export class AuthEffects {
         let signInUrl =
           'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
           environment.firebaseAPIKey;
+
         return this.http
           .post<AuthResponseData>(signInUrl, {
             email: authData.payload.email,
@@ -97,6 +106,11 @@ export class AuthEffects {
             returnSecureToken: true,
           })
           .pipe(
+            tap((resData) => {
+              this.AuthService.setLogoutTimer(
+                Number.parseInt(resData.expiresIn) * 1000
+              );
+            }),
             map((resData) => {
               return handleAuthentication(
                 +resData.expiresIn,
@@ -112,10 +126,11 @@ export class AuthEffects {
       })
     )
   );
+
   authRedirect = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
+        ofType(AuthActions.AUTHENTICATE_SUCCESS),
         tap(() => {
           this.router.navigate(['/']);
         })
@@ -128,7 +143,9 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.LOGOUT),
         tap(() => {
+          this.AuthService.clearLogoutTimer();
           localStorage.removeItem('userData');
+          this.router.navigate(['/auth']);
         })
       ),
     { dispatch: false }
@@ -157,6 +174,10 @@ export class AuthEffects {
 
         if (loadedUser.token) {
           // this.user.next(loadedUser);
+          const expirationDuration =
+            new Date(userData._tokenExpirationDate).getTime() -
+            new Date().getTime();
+          this.AuthService.setLogoutTimer(expirationDuration);
           return new AuthActions.AuthenticateSuccess({
             email: loadedUser.email,
             userId: loadedUser.id,
@@ -177,6 +198,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private AuthService: AuthService
   ) {}
 }
