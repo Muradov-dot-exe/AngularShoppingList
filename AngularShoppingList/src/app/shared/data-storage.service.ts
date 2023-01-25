@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Recipe } from '../recipes/recipe.model';
 import { RecipeService } from '../recipes/recipe.service';
 import * as fromApp from '../store/app.reducer';
 import * as recipesAction from '../recipes/store/recipe.action';
-import { ofType } from '@ngrx/effects';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
