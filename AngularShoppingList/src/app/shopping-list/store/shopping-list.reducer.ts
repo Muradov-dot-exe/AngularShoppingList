@@ -23,11 +23,13 @@ export const shoppingListReducer = (
         ...state,
         ingredients: [...state.ingredients, action.payload],
       };
+
     case ShoppingListActions.ADD_INGREDIENTS:
       return {
         ...state,
         ingredients: [...state.ingredients, ...action.payload],
       };
+
     case ShoppingListActions.UPDATE_INGREDIENT:
       const ingredient = state.ingredients[state.editedIngredientIndex];
       const updatedIngredient = {
@@ -57,12 +59,14 @@ export const shoppingListReducer = (
         editedIngredientIndex: action.payload,
         editedIngredient: { ...state.ingredients[action.payload] },
       };
+
     case ShoppingListActions.STOP_EDIT:
       return {
         ...state,
         editedIngredient: null,
         editedIngredientIndex: -1,
       };
+
     default:
       return state;
   }

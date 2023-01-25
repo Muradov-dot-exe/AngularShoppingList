@@ -2,12 +2,10 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { AuthService } from './auth.service';
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from './store/auth.actions';
 import { AlertComponent } from '../shared/login-alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -17,17 +15,14 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   isLoading = false;
   error: string = null;
+
   @ViewChild(PlaceholderDirective, { static: false })
   alertHost: PlaceholderDirective;
 
   private closeSub: Subscription;
   private storeSub: Subscription;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
     this.storeSub = this.store.select('auth').subscribe((authState) => {
@@ -47,6 +42,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (!form.valid) {
       return;
     }
+
     const email = form.value.email;
     const password = form.value.password;
 
@@ -63,6 +59,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     form.reset();
   }
+
   ngOnDestroy() {
     if (this.closeSub) {
       this.closeSub.unsubscribe();

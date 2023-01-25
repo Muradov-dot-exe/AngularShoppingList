@@ -18,6 +18,7 @@ export interface AuthResponseData {
   localId: string;
   registered?: boolean;
 }
+
 const handleAuthentication = (
   expiresIn: number,
   email: string,
@@ -39,9 +40,11 @@ const handleAuthentication = (
 
 const handleError = (errorRes: any) => {
   let errorMessage = 'An unknown error occurred!';
+
   if (!errorRes.error || !errorRes.error.error) {
     return of(new AuthActions.AuthenticateFail(errorMessage));
   }
+
   switch (errorRes.error.error.message) {
     case 'EMAIL_EXISTS':
       errorMessage = 'This email exists already';
@@ -53,6 +56,7 @@ const handleError = (errorRes: any) => {
       errorMessage = 'This password is not correct.';
       break;
   }
+
   return of(new AuthActions.AuthenticateFail(errorMessage));
 };
 @Injectable()

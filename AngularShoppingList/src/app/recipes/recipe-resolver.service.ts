@@ -5,9 +5,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-
 import { Recipe } from './recipe.model';
-import { RecipeService } from './recipe.service';
 import * as fromApp from '../store/app.reducer';
 import * as RecipesActions from '../recipes/store/recipe.action';
 import { Actions, ofType } from '@ngrx/effects';
@@ -18,12 +16,10 @@ import { of } from 'rxjs';
 export class RecipesResolverService implements Resolve<Recipe[]> {
   constructor(
     private store: Store<fromApp.AppState>,
-    private recipeService: RecipeService,
     private actions$: Actions
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // return this.dataStorageService.fetchRecipes();
     return this.store.select('recipes').pipe(
       take(1),
       map((recipesState) => {

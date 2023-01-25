@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 export class RecipeEffects {
   baseUrl =
     'https://angular-shopping-list-bb0d6-default-rtdb.europe-west1.firebasedatabase.app/';
+
   fetchRecipes = createEffect(() =>
     this.actions$.pipe(
       ofType(RecipesActions.FETCH_RECIPES),
@@ -31,6 +32,7 @@ export class RecipeEffects {
       })
     )
   );
+
   storeRecipes = createEffect(
     () =>
       this.actions$.pipe(
@@ -45,6 +47,7 @@ export class RecipeEffects {
       ),
     { dispatch: false }
   );
+
   constructor(
     private actions$: Actions,
     private http: HttpClient,

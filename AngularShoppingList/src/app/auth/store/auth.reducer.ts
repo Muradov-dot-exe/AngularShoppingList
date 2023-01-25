@@ -41,6 +41,7 @@ export const authReducer = (
       };
 
     case AuthActions.LOGIN_START:
+
     case AuthActions.SIGNUP_START:
       return {
         ...state,
@@ -55,6 +56,7 @@ export const authReducer = (
         authError: action.payload,
         loading: false,
       };
+
     case AuthActions.CLEAR_ERROR:
       return {
         ...state,
