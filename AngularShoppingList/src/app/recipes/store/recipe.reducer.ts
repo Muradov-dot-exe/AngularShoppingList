@@ -14,19 +14,19 @@ export function recipeReducer(
   action: RecipesActions.RecipesActions
 ) {
   switch (action.type) {
-    case RecipesActions.SET_RECIPES:
+    case RecipesActions.RecipeActionEnum.SET_RECIPES:
       return {
         ...state,
         recipes: [...action.payload],
       };
 
-    case RecipesActions.ADD_RECIPE:
+    case RecipesActions.RecipeActionEnum.ADD_RECIPE:
       return {
         ...state,
         recipes: [...state.recipes, action.payload],
       };
 
-    case RecipesActions.UPDATE_RECIPE:
+    case RecipesActions.RecipeActionEnum.UPDATE_RECIPE:
       const updatedRecipe = {
         ...state.recipes[action.payload.index],
         ...action.payload.newRecipe,
@@ -40,7 +40,7 @@ export function recipeReducer(
         recipes: updatedRecipes,
       };
 
-    case RecipesActions.DELETE_RECIPE:
+    case RecipesActions.RecipeActionEnum.DELETE_RECIPE:
       return {
         ...state,
         recipes: state.recipes.filter((recipe, index) => {

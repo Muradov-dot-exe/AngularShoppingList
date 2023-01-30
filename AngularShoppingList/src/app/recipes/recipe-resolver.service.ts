@@ -29,7 +29,7 @@ export class RecipesResolverService implements Resolve<Recipe[]> {
         if (recipes.length === 0) {
           this.store.dispatch(new RecipesActions.FetchRecipes());
           return this.actions$.pipe(
-            ofType(RecipesActions.SET_RECIPES),
+            ofType(RecipesActions.RecipeActionEnum.SET_RECIPES),
             take(1)
           );
         } else {

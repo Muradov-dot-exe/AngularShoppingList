@@ -27,6 +27,10 @@ import { RecipeEffects } from './recipes/store/recipe.effects';
     StoreModule.forRoot(fromAppRoot.appReducer),
     StoreRouterConnectingModule.forRoot(),
     EffectsModule.forRoot([AuthEffects, RecipeEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
 
   bootstrap: [AppComponent],

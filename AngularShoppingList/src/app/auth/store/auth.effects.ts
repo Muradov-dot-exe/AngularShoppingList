@@ -63,7 +63,7 @@ const handleError = (errorRes: any) => {
 export class AuthEffects {
   authSignup$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.SIGNUP_START),
+      ofType(AuthActions.AuthActionsEnum.SIGNUP_START),
       switchMap((signupAction: AuthActions.SignupStart) => {
         let signInUrl =
           'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
@@ -98,7 +98,7 @@ export class AuthEffects {
   );
   authLogin$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.LOGIN_START),
+      ofType(AuthActions.AuthActionsEnum.LOGIN_START),
       switchMap((authData: AuthActions.LoginStart) => {
         let signInUrl =
           'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
@@ -135,7 +135,7 @@ export class AuthEffects {
   authRedirect = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.AUTHENTICATE_SUCCESS),
+        ofType(AuthActions.AuthActionsEnum.AUTHENTICATE_SUCCESS),
         tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
           if (authSuccessAction.payload.redirect) {
             this.router.navigate(['/']);
@@ -148,7 +148,7 @@ export class AuthEffects {
   authLogout = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.LOGOUT),
+        ofType(AuthActions.AuthActionsEnum.LOGOUT),
         tap(() => {
           this.AuthService.clearLogoutTimer();
           localStorage.removeItem('userData');
@@ -160,7 +160,7 @@ export class AuthEffects {
 
   autoLogin = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.AUTO_LOGIN),
+      ofType(AuthActions.AuthActionsEnum.AUTO_LOGIN),
       map(() => {
         const userData: {
           email: string;
@@ -180,7 +180,6 @@ export class AuthEffects {
         );
 
         if (loadedUser.token) {
-          // this.user.next(loadedUser);
           const expirationDuration =
             new Date(userData._tokenExpirationDate).getTime() -
             new Date().getTime();

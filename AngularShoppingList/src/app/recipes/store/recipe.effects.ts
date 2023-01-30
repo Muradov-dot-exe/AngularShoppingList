@@ -15,7 +15,7 @@ export class RecipeEffects {
 
   fetchRecipes = createEffect(() =>
     this.actions$.pipe(
-      ofType(RecipesActions.FETCH_RECIPES),
+      ofType(RecipesActions.RecipeActionEnum.FETCH_RECIPES),
       switchMap(() => {
         return this.http.get<Recipe[]>(`${this.baseUrl}recipes.json`);
       }),
@@ -36,7 +36,7 @@ export class RecipeEffects {
   storeRecipes = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(RecipesActions.STORE_RECIPES),
+        ofType(RecipesActions.RecipeActionEnum.STORE_RECIPES),
         withLatestFrom(this.store.select('recipes')),
         switchMap(([actionData, recipesState]) => {
           return this.http.put(

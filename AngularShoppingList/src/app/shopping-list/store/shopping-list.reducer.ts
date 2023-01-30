@@ -18,19 +18,19 @@ export const shoppingListReducer = (
   action: ShoppingListActions.ShoppingListActions
 ) => {
   switch (action.type) {
-    case ShoppingListActions.ADD_INGREDIENT:
+    case ShoppingListActions.ShoppingListAction.ADD_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients, action.payload],
       };
 
-    case ShoppingListActions.ADD_INGREDIENTS:
+    case ShoppingListActions.ShoppingListAction.ADD_INGREDIENTS:
       return {
         ...state,
         ingredients: [...state.ingredients, ...action.payload],
       };
 
-    case ShoppingListActions.UPDATE_INGREDIENT:
+    case ShoppingListActions.ShoppingListAction.UPDATE_INGREDIENT:
       const ingredient = state.ingredients[state.editedIngredientIndex];
       const updatedIngredient = {
         ...ingredient,
@@ -45,7 +45,7 @@ export const shoppingListReducer = (
         editedIngredient: null,
       };
 
-    case ShoppingListActions.DELETE_INGREDIENT:
+    case ShoppingListActions.ShoppingListAction.DELETE_INGREDIENT:
       return {
         ...state,
         ingredients: state.ingredients.filter((ig, igIndex) => {
@@ -53,14 +53,14 @@ export const shoppingListReducer = (
         }),
       };
 
-    case ShoppingListActions.START_EDIT:
+    case ShoppingListActions.ShoppingListAction.START_EDIT:
       return {
         ...state,
         editedIngredientIndex: action.payload,
         editedIngredient: { ...state.ingredients[action.payload] },
       };
 
-    case ShoppingListActions.STOP_EDIT:
+    case ShoppingListActions.ShoppingListAction.STOP_EDIT:
       return {
         ...state,
         editedIngredient: null,

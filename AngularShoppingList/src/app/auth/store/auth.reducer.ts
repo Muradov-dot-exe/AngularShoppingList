@@ -16,9 +16,9 @@ const initialState = {
 export const authReducer = (
   state = initialState,
   action: AuthActions.AuthActions
-) => {
+): State => {
   switch (action.type) {
-    case AuthActions.AUTHENTICATE_SUCCESS: {
+    case AuthActions.AuthActionsEnum.AUTHENTICATE_SUCCESS: {
       const user = new User(
         action.payload.email,
         action.payload.userId,
@@ -34,22 +34,22 @@ export const authReducer = (
       };
     }
 
-    case AuthActions.LOGOUT:
+    case AuthActions.AuthActionsEnum.LOGOUT:
       return {
         ...state,
         user: null,
       };
 
-    case AuthActions.LOGIN_START:
+    case AuthActions.AuthActionsEnum.LOGIN_START:
 
-    case AuthActions.SIGNUP_START:
+    case AuthActions.AuthActionsEnum.SIGNUP_START:
       return {
         ...state,
         authError: null,
         loading: true,
       };
 
-    case AuthActions.AUTHENTICATE_FAIL:
+    case AuthActions.AuthActionsEnum.AUTHENTICATE_FAIL:
       return {
         ...state,
         user: null,
@@ -57,7 +57,7 @@ export const authReducer = (
         loading: false,
       };
 
-    case AuthActions.CLEAR_ERROR:
+    case AuthActions.AuthActionsEnum.CLEAR_ERROR:
       return {
         ...state,
         authError: null,

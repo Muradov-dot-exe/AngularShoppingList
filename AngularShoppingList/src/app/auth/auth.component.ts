@@ -42,7 +42,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (!form.valid) {
       return;
     }
-
     const email = form.value.email;
     const password = form.value.password;
 
@@ -72,7 +71,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   private showErrorAlert(message: string) {
     const hostViewContainerRef = this.alertHost.viewContainerRef;
     hostViewContainerRef.clear();
-    const componentRef = hostViewContainerRef.createComponent(AlertComponent);
+    const componentRef =
+      hostViewContainerRef.createComponent<AlertComponent>(AlertComponent);
 
     componentRef.instance.message = message;
     this.closeSub = componentRef.instance.close.subscribe(() => {
