@@ -14,9 +14,19 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { RecipeEffects } from './recipes/store/recipe.effects';
+import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
+import { FooterComponent } from './footer/footer.component';
+import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
+import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    PlaceholderDirective,
+    FooterComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,6 +41,9 @@ import { RecipeEffects } from './recipes/store/recipe.effects';
       maxAge: 25,
       logOnly: environment.production,
     }),
+    MdbCheckboxModule,
+    MdbRippleModule,
+    FontAwesomeModule,
   ],
 
   bootstrap: [AppComponent],

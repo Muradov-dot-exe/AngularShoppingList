@@ -16,7 +16,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoading = false;
   error: string = null;
 
-  @ViewChild(PlaceholderDirective, { static: false })
+  @ViewChild('dynamicCom', { static: false })
   alertHost: PlaceholderDirective;
 
   private closeSub: Subscription;
@@ -42,11 +42,11 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (!form.valid) {
       return;
     }
+
     const email = form.value.email;
     const password = form.value.password;
 
     if (this.isLoginMode) {
-      // authObs = this.authService.login(email, password);
       this.store.dispatch(
         new AuthActions.LoginStart({ email: email, password: password })
       );
