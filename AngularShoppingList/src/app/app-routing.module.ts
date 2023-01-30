@@ -20,6 +20,10 @@ const appRoutes: Routes = [
     loadChildren: () =>
       import('./auth/auth.module').then((mod) => mod.AuthModule),
   },
+  {
+    path: '**',
+    redirectTo: '/recipes',
+  },
 ];
 @NgModule({
   imports: [
