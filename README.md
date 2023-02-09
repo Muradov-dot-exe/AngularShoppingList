@@ -3,6 +3,9 @@
 This is a project in development using the Angular CLI. Project includes usage of Angular Routing,Services,Lifecycle Hooks,Directives,Observables(basic subscription) and different methods in the components.
 Recently added advanced authentication using Firebase "backend" and route protection. Cleaned up a lot of bugs and messy code.Added lazy loading optimizations and a lot of module clean up.
 
+Replaced basic services with NgRx but having a major but around authentication. 
+Need to fix the bug before app update.
+
 The project uses basic and more advanced Angular functions and development tools. 
 
 Project is fully deployed using Firebase Cli.
